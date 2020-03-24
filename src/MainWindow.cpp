@@ -72,7 +72,8 @@ MainWindow::MainWindow(QWidget *const parent)
           SLOT(updateSickTime(int)));
   connect(ui_->pushButtonStart, SIGNAL(clicked()), this, SLOT(clickedStart()));
   connect(ui_->pushButtonStop, SIGNAL(clicked()), this, SLOT(clickedStop()));
-  connect(ui_->pushButtonRecreate, SIGNAL(clicked()), this, SLOT(clickedRecreate()));
+  connect(ui_->pushButtonRecreate, SIGNAL(clicked()), this,
+          SLOT(clickedRecreate()));
 }
 
 Subjects MainWindow::generateSubjects(const Params &params, const QRect &rect) {
@@ -240,8 +241,7 @@ void MainWindow::clickedStop() {
 }
 
 void MainWindow::clickedRecreate() {
-  if (timer_.isActive())
-  {
+  if (timer_.isActive()) {
     timer_.stop();
     assert(!ui_->pushButtonStart->isEnabled());
     assert(ui_->pushButtonStop->isEnabled());
