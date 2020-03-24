@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>707</width>
-    <height>729</height>
+    <width>708</width>
+    <height>584</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
@@ -16,38 +22,56 @@
     <height>0</height>
    </size>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>706</width>
-      <height>681</height>
+      <width>708</width>
+      <height>537</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <property name="sizeConstraint">
-      <enum>QLayout::SetDefaultConstraint</enum>
+      <enum>QLayout::SetMinimumSize</enum>
      </property>
-     <item alignment="Qt::AlignTop">
-      <widget class="cvd::RenderArea" name="renderArea" native="true">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetMinimumSize</enum>
        </property>
-       <property name="minimumSize">
-        <size>
-         <width>500</width>
-         <height>500</height>
-        </size>
-       </property>
-      </widget>
+       <item>
+        <widget class="cvd::RenderArea" name="renderArea" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>500</width>
+           <height>500</height>
+          </size>
+         </property>
+        </widget>
+       </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <property name="sizeConstraint">
@@ -95,16 +119,28 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetMinimumSize</enum>
+       </property>
        <item>
         <widget class="QLabel" name="labelRadius">
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>62</height>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
           </size>
          </property>
          <property name="text">
-          <string>Radius</string>
+          <string>Raidus</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -113,12 +149,21 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <property name="sizeConstraint">
+          <enum>QLayout::SetMinimumSize</enum>
+         </property>
          <item>
           <widget class="QLabel" name="labelMinRadius">
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>61</height>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
             </size>
            </property>
            <property name="text">
@@ -132,6 +177,12 @@
             <size>
              <width>0</width>
              <height>15</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
             </size>
            </property>
            <property name="minimum">
@@ -153,7 +204,13 @@
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>61</height>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
             </size>
            </property>
            <property name="text">
@@ -168,7 +225,13 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>62</height>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
           </size>
          </property>
          <property name="text">
@@ -186,7 +249,13 @@
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>60</height>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
             </size>
            </property>
            <property name="text">
@@ -221,7 +290,13 @@
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>60</height>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
             </size>
            </property>
            <property name="text">
@@ -236,7 +311,13 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>62</height>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
           </size>
          </property>
          <property name="text">
@@ -254,7 +335,13 @@
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>61</height>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
             </size>
            </property>
            <property name="text">
@@ -289,7 +376,13 @@
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>61</height>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
             </size>
            </property>
            <property name="text">
@@ -304,7 +397,13 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>62</height>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
           </size>
          </property>
          <property name="text">
@@ -322,7 +421,13 @@
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>60</height>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
             </size>
            </property>
            <property name="text">
@@ -351,7 +456,13 @@
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>60</height>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
             </size>
            </property>
            <property name="text">
@@ -366,7 +477,13 @@
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>63</height>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
           </size>
          </property>
          <property name="text">
@@ -384,7 +501,13 @@
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>60</height>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
             </size>
            </property>
            <property name="text">
@@ -400,6 +523,9 @@
              <height>15</height>
             </size>
            </property>
+           <property name="value">
+            <number>10</number>
+           </property>
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
@@ -410,7 +536,13 @@
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>60</height>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>20</height>
             </size>
            </property>
            <property name="text">
@@ -430,7 +562,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>707</width>
+     <width>708</width>
      <height>22</height>
     </rect>
    </property>
