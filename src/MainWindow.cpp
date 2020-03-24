@@ -59,7 +59,6 @@ MainWindow::MainWindow(QWidget *const parent)
   timer_.setInterval(std::chrono::milliseconds{100u});
   timer_.setSingleShot(false);
   connect(&timer_, SIGNAL(timeout()), this, SLOT(updateRenderArea()));
-  timer_.start();
 
   connect(ui_->sliderNumber, SIGNAL(valueChanged(int)), this,
           SLOT(updateNumber(int)));
@@ -71,6 +70,9 @@ MainWindow::MainWindow(QWidget *const parent)
           SLOT(updateRadius(int)));
   connect(ui_->sliderSickTime, SIGNAL(valueChanged(int)), this,
           SLOT(updateSickTime(int)));
+  connect(ui_->pushButtonStart, SIGNAL(clicked()), this, SLOT(clickedStart()));
+  connect(ui_->pushButtonStop, SIGNAL(clicked()), this, SLOT(clickedStop()));
+  connect(ui_->pushButtonRecreate, SIGNAL(clicked()), this, SLOT(clickedRecreate()));
 }
 
 Subjects MainWindow::generateSubjects(const Params &params, const QRect &rect) {
@@ -194,8 +196,7 @@ void MainWindow::updateRenderArea() {
 
 void MainWindow::updateSpeed(const int value) {
   params_.minimalSpeed = static_cast<float>(value);
-
-  recreateSubjects();
+  clickedRecreate();
 }
 
 void MainWindow::updateSickPercentage(const int value) {
@@ -203,32 +204,56 @@ void MainWindow::updateSickPercentage(const int value) {
   const auto capacity =
       static_cast<float>(slider->maximum() - slider->minimum());
   params_.sickPercentage = static_cast<float>(value) / capacity;
-
-  recreateSubjects();
+  clickedRecreate();
 }
 
 void MainWindow::updateNumber(const int value) {
   params_.number = static_cast<size_t>(value);
-
-  recreateSubjects();
+  clickedRecreate();
 }
 
 void MainWindow::updateRadius(int value) {
   params_.radius = static_cast<float>(value);
-
-  recreateSubjects();
+  clickedRecreate();
 }
 
 void MainWindow::updateSickTime(int value) {
   params_.sickTime = gSickTime * static_cast<float>(value);
-  recreateSubjects();
+  clickedRecreate();
 }
 
 void MainWindow::recreateSubjects() {
-  const auto *const renderArea = ui_->renderArea;
+  auto *const renderArea = ui_->renderArea;
   assert(renderArea);
   const auto &rect = renderArea->geometry();
   subjects_ = std::make_shared<Subjects>(generateSubjects(params_, rect));
+  renderArea->redraw(subjects_);
+}
+
+void MainWindow::clickedStart() {
+  timer_.start();
+  assert(!ui_->pushButtonStop->isEnabled());
+  ui_->pushButtonStop->setEnabled(true);
+  ui_->pushButtonStart->setEnabled(false);
+}
+
+void MainWindow::clickedStop() {
+  timer_.stop();
+  assert(!ui_->pushButtonStart->isEnabled());
+  ui_->pushButtonStart->setEnabled(true);
+  ui_->pushButtonStop->setEnabled(false);
+}
+
+void MainWindow::clickedRecreate() {
+  if (timer_.isActive())
+  {
+    timer_.stop();
+    assert(!ui_->pushButtonStart->isEnabled());
+    assert(ui_->pushButtonStop->isEnabled());
+    ui_->pushButtonStart->setEnabled(true);
+    ui_->pushButtonStop->setEnabled(false);
+  }
+  recreateSubjects();
 }
 
 } // namespace cvd

@@ -37,6 +37,9 @@ private slots:
   void updateRadius(int value);
   void updateSickTime(int value);
   void updateSpeed(int value);
+  void clickedStart();
+  void clickedStop();
+  void clickedRecreate();
 
 private:
   std::unique_ptr<Ui::MainWindow> ui_;
