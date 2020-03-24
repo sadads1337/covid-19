@@ -10,7 +10,7 @@ namespace {
   std::random_device randomDevice;
   std::mt19937 generator(randomDevice());
   assert(boundingBox.width() == boundingBox.height());
-  const auto speed_limit = static_cast<float>(boundingBox.height()) / 50.f;
+  const auto speed_limit = static_cast<float>(boundingBox.height()) / 10000.f;
   std::uniform_real_distribution<> dist(speed_limit,
                                         speed_limit * minimalSpeed);
   return static_cast<float>(dist(generator));
@@ -40,15 +40,15 @@ namespace {
       .normalized();
 }
 
-constexpr auto gDeltaT = 0.1f;
-constexpr auto gSickTime = 1.f;
+constexpr auto gDeltaT = 1.f;
+constexpr auto gSickTime = 10.f;
 
 } // namespace
 
 namespace cvd {
 MainWindow::MainWindow(QWidget *const parent)
     : QMainWindow{parent}, ui_{std::make_unique<Ui::MainWindow>()},
-      params_{100u, 0.1f, 5.f, 10.f, 10.f} {
+      params_{100u, 0.1f, 5.f, gSickTime * 50.f, 10.f} {
   ui_->setupUi(this);
 
   const auto *const renderArea = ui_->renderArea;
@@ -56,7 +56,7 @@ MainWindow::MainWindow(QWidget *const parent)
   const auto &rect = renderArea->geometry();
   subjects_ = std::make_shared<Subjects>(generateSubjects(params_, rect));
 
-  timer_.setInterval(std::chrono::milliseconds{100u});
+  timer_.setInterval(std::chrono::milliseconds{10u});
   timer_.setSingleShot(false);
   connect(&timer_, SIGNAL(timeout()), this, SLOT(updateRenderArea()));
 
@@ -106,7 +106,7 @@ void MainWindow::updateSubjects() {
     auto &sickTimeRemaining = subject_it->sickTimeRemaining;
 
     if (status == Subject::Status::Sick) {
-      assert(sickTimeRemaining > 0.);
+      assert(sickTimeRemaining >= 0.);
       sickTimeRemaining -= gDeltaT;
       if (sickTimeRemaining < 0.) {
         status = Subject::Status::Recovered;
@@ -168,20 +168,15 @@ void MainWindow::updateSubjects() {
             if (status != Subject::Status::Sick &&
                 status != Subject::Status::Recovered) {
               status = Subject::Status::Sick;
-              sickTimeRemaining = gSickTime;
+              sickTimeRemaining = params_.sickTime;
             }
             if (otherStatus != Subject::Status::Sick &&
                 otherStatus != Subject::Status::Recovered) {
               otherStatus = Subject::Status::Sick;
-              otherSickTimeRemaining = gSickTime;
+              otherSickTimeRemaining = params_.sickTime;
             }
           }
         }
-        //! \todo: if debug only
-        deltaPos = newPos - otherPos;
-        distanceBetweenCenters = std::sqrt(deltaPos.x() * deltaPos.x() +
-                                           deltaPos.y() * deltaPos.y());
-        // assert(distanceBetweenCenters > 2.f * radius);
       }
     }
     pos = newPos;
