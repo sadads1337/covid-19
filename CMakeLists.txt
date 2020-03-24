@@ -9,15 +9,16 @@ set(SRC
         src/MainWindow.ui
         src/RenderArea.cpp
         src/RenderArea.h
-        src/Subject.h)
+        src/Subject.h
+)
 
 add_executable(covid-19 ${SRC})
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 target_link_libraries(covid-19
-        PRIVATE
+    PRIVATE
         Qt5::Widgets
-        )
+)
 
-target_compile_features(covid-19 PUBLIC cxx_std_17)
+target_compile_features(covid-19 PRIVATE cxx_std_17)
