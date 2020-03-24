@@ -19,6 +19,7 @@ struct Subject final {
   float radius;
   Status status;
   float sickTimeRemaining;
+  bool freezed;
 
   Subject() = delete;
 };

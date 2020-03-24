@@ -22,6 +22,7 @@ private:
     float radius;
     float sickTime;
     float minimalSpeed;
+    float freezePercentage;
   };
 
 private:
@@ -34,6 +35,7 @@ private slots:
   void updateRenderArea();
   void updateNumber(int value);
   void updateSickPercentage(int value);
+  void updateFreezePercentage(int value);
   void updateRadius(int value);
   void updateSickTime(int value);
   void updateSpeed(int value);

@@ -48,7 +48,7 @@ constexpr auto gSickTime = 10.f;
 namespace cvd {
 MainWindow::MainWindow(QWidget *const parent)
     : QMainWindow{parent}, ui_{std::make_unique<Ui::MainWindow>()},
-      params_{100u, 0.1f, 5.f, gSickTime * 50.f, 10.f} {
+      params_{100u, 0.1f, 5.f, gSickTime * 50.f, 10.f, 0.1f} {
   ui_->setupUi(this);
 
   const auto *const renderArea = ui_->renderArea;
@@ -66,6 +66,8 @@ MainWindow::MainWindow(QWidget *const parent)
           SLOT(updateSpeed(int)));
   connect(ui_->sliderSickPercentage, SIGNAL(valueChanged(int)), this,
           SLOT(updateSickPercentage(int)));
+  connect(ui_->sliderFreezePercentage, SIGNAL(valueChanged(int)), this,
+          SLOT(updateFreezePercentage(int)));
   connect(ui_->sliderRadius, SIGNAL(valueChanged(int)), this,
           SLOT(updateRadius(int)));
   connect(ui_->sliderSickTime, SIGNAL(valueChanged(int)), this,
@@ -89,7 +91,24 @@ Subjects MainWindow::generateSubjects(const Params &params, const QRect &rect) {
         params.radius,
         sick ? Subject::Status::Sick : Subject::Status::Healthy,
         sick ? params.sickTime : -1.f,
+        false,
     });
+  }
+
+  //! Shuffle and freeze
+  {
+    assert(params.freezePercentage >= 0. && params.freezePercentage <= 1.);
+    assert(params.number == result.size());
+    const auto number_to_freeze =
+        static_cast<size_t>(params.number * params.freezePercentage);
+    const auto seed = static_cast<unsigned>(
+        std::chrono::system_clock::now().time_since_epoch().count());
+    auto rng = std::default_random_engine{seed};
+    std::shuffle(std::begin(result), std::end(result), rng);
+    for (auto it = result.begin(); it < result.begin() + number_to_freeze;
+         ++it) {
+      it->freezed = true;
+    }
   }
 
   return result;
@@ -99,6 +118,9 @@ void MainWindow::updateSubjects() {
   assert(subjects_);
   for (auto subject_it = subjects_->begin(); subject_it < subjects_->end();
        ++subject_it) {
+    if (subject_it->freezed) {
+      continue;
+    }
     auto &pos = subject_it->pos;
     auto &direction = subject_it->direction;
     const auto &speed = subject_it->speed;
@@ -200,6 +222,14 @@ void MainWindow::updateSickPercentage(const int value) {
   const auto capacity =
       static_cast<float>(slider->maximum() - slider->minimum());
   params_.sickPercentage = static_cast<float>(value) / capacity;
+  clickedRecreate();
+}
+
+void MainWindow::updateFreezePercentage(const int value) {
+  const auto *const slider = ui_->sliderFreezePercentage;
+  const auto capacity =
+      static_cast<float>(slider->maximum() - slider->minimum());
+  params_.freezePercentage = static_cast<float>(value) / capacity;
   clickedRecreate();
 }
 
