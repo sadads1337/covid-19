@@ -29,12 +29,12 @@ It is believed that people move at a certain speed,
 and in case of contact between the infected and healthy,
 with some probability infection occurs.
 
-`Radius` - The radius of infection, or rather the distance of the virus acts on a person.
-`Sick time` - The amount of a time(in ticks of delta T) until person fully recovers.
-`Total number` - Total number of subjects(people) in model.
-`Speed` - Multiplier of subjects move speed.
-`Freeze percentage` - Amount of people, who are freeze(doesn't move on a field).
-`Sick percentage` - Amount of people, who are infected in the time simulation starts.
+* `Radius` - The radius of infection, or rather the distance of the virus acts on a person.
+* `Sick time` - The amount of a time(in ticks of delta T) until person fully recovers.
+* `Total number` - Total number of subjects(people) in model.
+* `Speed` - Multiplier of subjects move speed.
+* `Freeze percentage` - Amount of people, who are freeze(doesn't move on a field).
+* `Sick percentage` - Amount of people, who are infected in the time simulation starts.
 
 TODO
 ----
