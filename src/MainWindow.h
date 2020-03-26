@@ -30,9 +30,11 @@ private:
                                                  const QRect &rect);
   void recreateSubjects();
   void updateSubjects();
+  void clearPlots();
 
 private slots:
   void updateRenderArea();
+  void updatePlot();
   void updateNumber(int value);
   void updateSickPercentage(int value);
   void updateFreezePercentage(int value);
@@ -48,6 +50,14 @@ private:
   Params params_;
   std::shared_ptr<Subjects> subjects_;
   QTimer timer_;
+
+  struct final {
+    size_t ticks;
+    std::unique_ptr<QCPGraph> sick;
+    std::unique_ptr<QCPGraph> recovered;
+    std::unique_ptr<QCPGraph> totalSick;
+    std::unique_ptr<QCPGraph> capacity;
+  } plots_;
 };
 
 } // namespace cvd

@@ -42,6 +42,7 @@ namespace {
 
 constexpr auto gDeltaT = 1.f;
 constexpr auto gSickTime = 10.f;
+constexpr auto gMaxPlotTicks = 10000u;
 
 } // namespace
 
@@ -76,6 +77,20 @@ MainWindow::MainWindow(QWidget *const parent)
   connect(ui_->pushButtonStop, SIGNAL(clicked()), this, SLOT(clickedStop()));
   connect(ui_->pushButtonRecreate, SIGNAL(clicked()), this,
           SLOT(clickedRecreate()));
+
+  ui_->plot->clearGraphs();
+  plots_.sick.reset(ui_->plot->addGraph());
+  plots_.recovered.reset(ui_->plot->addGraph());
+  plots_.totalSick.reset(ui_->plot->addGraph());
+  plots_.capacity.reset(ui_->plot->addGraph());
+  plots_.sick->setPen(QPen{Qt::red});
+  plots_.recovered->setPen(QPen{Qt::blue});
+  plots_.totalSick->setPen(QPen{Qt::red});
+  plots_.capacity->setPen(QPen{QColor{60, 60, 60, 255}, 1.5f, Qt::DotLine});
+  ui_->plot->xAxis->setRange(0, gMaxPlotTicks);
+  ui_->plot->yAxis->setRange(0, params_.number);
+
+  connect(&timer_, SIGNAL(timeout()), this, SLOT(updatePlot()));
 }
 
 Subjects MainWindow::generateSubjects(const Params &params, const QRect &rect) {
@@ -262,6 +277,8 @@ void MainWindow::clickedStart() {
   assert(!ui_->pushButtonStop->isEnabled());
   ui_->pushButtonStop->setEnabled(true);
   ui_->pushButtonStart->setEnabled(false);
+
+  clearPlots();
 }
 
 void MainWindow::clickedStop() {
@@ -280,6 +297,54 @@ void MainWindow::clickedRecreate() {
     ui_->pushButtonStop->setEnabled(false);
   }
   recreateSubjects();
+}
+void MainWindow::updatePlot() {
+  const auto sickNumber = std::count_if(
+      subjects_->begin(), subjects_->end(), [](const auto &subject) {
+        return subject.status == Subject::Status::Sick;
+      });
+
+  {
+    plots_.sick->addData(plots_.ticks, 0);
+    plots_.sick->addData(plots_.ticks, sickNumber);
+  }
+
+  {
+    const auto recoveredNumber = std::count_if(
+        subjects_->begin(), subjects_->end(), [](const auto &subject) {
+          return subject.status == Subject::Status::Recovered;
+        });
+
+    plots_.recovered->addData(plots_.ticks, params_.number);
+    plots_.recovered->addData(plots_.ticks, params_.number - recoveredNumber);
+  }
+
+  {
+    plots_.totalSick->data()->clear();
+    plots_.totalSick->addData(0, sickNumber);
+    plots_.totalSick->addData(gMaxPlotTicks, sickNumber);
+  }
+
+  {
+    //! \todo: Make it parameterizable
+    constexpr auto capacity = 30u;
+    plots_.capacity->data()->clear();
+    plots_.capacity->addData(0, capacity);
+    plots_.capacity->addData(gMaxPlotTicks, capacity);
+  }
+
+  plots_.ticks += 1u;
+  ui_->plot->replot();
+}
+
+void MainWindow::clearPlots() {
+  plots_.sick->data()->clear();
+  plots_.recovered->data()->clear();
+  plots_.totalSick->data()->clear();
+  plots_.capacity->data()->clear();
+  plots_.ticks = 0u;
+
+  ui_->plot->replot();
 }
 
 } // namespace cvd
