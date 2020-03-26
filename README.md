@@ -48,4 +48,5 @@ Screenshots
 ----
 ![alt text](./res/1.png)
 ![alt text](./res/2.png)
+![alt text](./res/3.png)
 
