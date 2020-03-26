@@ -10,15 +10,21 @@ set(SRC
         src/RenderArea.cpp
         src/RenderArea.h
         src/Subject.h
-)
+
+        # thirdparty over GPL
+        src/QCustomPlot/qcustomplot.cpp
+        src/QCustomPlot/qcustomplot.h
+        )
 
 add_executable(covid-19 ${SRC})
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Widgets PrintSupport XmlPatterns REQUIRED)
 
 target_link_libraries(covid-19
-    PRIVATE
+        PRIVATE
         Qt5::Widgets
-)
+        Qt5::PrintSupport
+        Qt5::XmlPatterns
+        )
 
 target_compile_features(covid-19 PRIVATE cxx_std_17)
