@@ -118,9 +118,6 @@ void MainWindow::updateSubjects() {
   assert(subjects_);
   for (auto subject_it = subjects_->begin(); subject_it < subjects_->end();
        ++subject_it) {
-    if (subject_it->freezed) {
-      continue;
-    }
     auto &pos = subject_it->pos;
     auto &direction = subject_it->direction;
     const auto &speed = subject_it->speed;
@@ -134,6 +131,10 @@ void MainWindow::updateSubjects() {
       if (sickTimeRemaining < 0.) {
         status = Subject::Status::Recovered;
       }
+    }
+
+    if (subject_it->freezed) {
+      continue;
     }
 
     auto newPos = QPointF{
